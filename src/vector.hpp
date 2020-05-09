@@ -101,12 +101,13 @@ namespace chbm {
 		}
 
 		void insert(iterator pos, const_reference val) {
-			if (full()) expand();
-
-			if (pos != end() + 1) {
-				std::move_backward(pos, end(), pos + 1);
+			if (full()) {
+				const size_type dist = std::distance(begin(), pos);
+				expand();
+				pos = begin() + dist;
 			}
 
+			std::move(pos, end(), pos + 1);
 			*pos = val;
 			++nb_elems;
 		}

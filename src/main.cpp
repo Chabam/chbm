@@ -80,9 +80,13 @@ void test_pop_front() {
 
 void test_insert() {
 	print_test_header("Test insert");
-	chbm::vector<int> vec = chbm::vector<int>(10, -1);
-	vec.insert(vec.begin() + 1, 420);
-	for (auto x: vec) {
+	chbm::vector<int> vec = chbm::vector<int>(10);
+	for (size_t i = 0; i < vec.capacity(); ++i) vec.push_back(i);
+
+	vec.insert(vec.begin() + 3, 420);
+	vec.insert(vec.end(), 420);
+	vec.insert(vec.begin(), 420);
+ 	for (auto x: vec) {
 		std::cout << x << std::endl;
 	}
 }
