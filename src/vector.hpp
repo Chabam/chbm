@@ -1,6 +1,7 @@
 #include <cstddef>
 #include <memory>
 #include <algorithm>
+#include <stdexcept>
 
 namespace chbm {
 	template <class T>
@@ -23,8 +24,11 @@ namespace chbm {
 
 		vector(size_type capacity) : elems{ new value_t[capacity] }, cap{ capacity } {}
 
-		vector(size_type capacity, const_reference val) : elems{ new value_t[capacity] }, nb_elems{ capacity }, cap{ capacity } {
-			std::fill(begin(), end(), val);
+		vector(size_type capacity, const_reference val) :
+			elems{ new value_t[capacity] },
+			nb_elems{ capacity },
+			cap{ capacity } {
+				std::fill(begin(), end(), val);
 		}
 
 		vector(vector &&other) = default;
@@ -38,7 +42,7 @@ namespace chbm {
 		}
 
 		iterator end() {
-			return elems.get() + size();
+			return begin() + size();
 		}
 
 		size_type size() {
@@ -59,7 +63,7 @@ namespace chbm {
 			swap(new_elems, elems);
 		}
 
-		value_t operator[](size_type index) {
+		reference operator[](size_type index) {
 			return elems[index];
 		}
 
@@ -110,6 +114,12 @@ namespace chbm {
 			std::move(pos, end(), pos + 1);
 			*pos = val;
 			++nb_elems;
+		}
+
+		reference at(size_type pos) {
+			if (pos > size()) throw std::out_of_range("Out of range");
+
+			return elems[pos];
 		}
 
 	private:

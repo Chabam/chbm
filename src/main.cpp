@@ -3,6 +3,8 @@
 #include <chrono>
 #include <string>
 #include <utility>
+#include <algorithm>
+#include <functional>
 #include "vector.hpp"
 
 size_t gid {};
@@ -91,6 +93,18 @@ void test_insert() {
 	}
 }
 
+void test_at() {
+	print_test_header("Test at");
+	chbm::vector<int> vec = chbm::vector<int>(10, 0);
+	std::iota(vec.begin(), vec.end(), int {1});
+	std::cout << vec.at(2) << std::endl;
+	try {
+		std::cout << vec.at(12) << std::endl;
+	} catch(...) {
+		std::cout << 12 << " out of range" << std::endl;
+	}
+}
+
 
 int main() {
 	test_push_back();
@@ -98,4 +112,5 @@ int main() {
 	test_pop_back();
 	test_pop_front();
 	test_insert();
+	test_at();
 }
